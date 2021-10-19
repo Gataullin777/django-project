@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Каталог{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1><a href="/catalog">Каталог</a></h1>
+        </div>
+
+        <div class="sort_item ">
+            <h3 > Сортировать по :  </h3>
+            <h3 ><a href=/catalog/?sort=name> по названию </a></h3>
+            <h3 ><a href=/catalog/?sort=min_price> начиная с дешевых</a></h3>
+            <h3 ><a href=/catalog/?sort=max_price> начиная с дорогих</a></h3>
+        </div>
+
+        <div class="wrapper">
+            {% for item in data %}
+                <div class="phone">
+                    <h1><a href=/catalog/{{item.slug}}> {{item.name}}</a></h1>
+                    <h2 class="price" > Стоимость: {{item.price}}</h2>
+
+                    <img src="{% static item.image %}" alt="phone_image" style="width:300px" >
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{#style="width:400px"     {{i.image}}   #}

@@ -1,0 +1,28 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  }
+
+.header {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.phone {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.sort-block {
+    padding-right: 20px;
+}
+
+.price {
+    font-weight: normal;
+}
+
+.sort_item {
+    display: grid;
+    grid-template-columns: 300px 200px 300px 300px;
+
+}
