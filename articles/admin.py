@@ -29,8 +29,6 @@ class RelationInlineFormSet(BaseInlineFormSet):
             return super().clean()
 
 
-
-
 class RelationInline(admin.TabularInline):
     model = Relation
     extra = 0

@@ -4,31 +4,21 @@
 {% block title %}Новости{% endblock %}
 {% block content %}
 <div class="row">
-  {% for article_ in data %}
+  {% for article in object_list %}
   <div class="col-lg-4 col-sm-6 portfolio-item">
     <div class="card h-100">
-      <a href="#"><img class="card-img-top" src="{% get_media_prefix %}{{ article_.image }}" alt=""></a>
+      <a href="#"><img class="card-img-top" src="{% get_media_prefix %}{{ article.image }}" alt=""></a>
       <div class="card-body">
         <h4 class="card-title">
-          <a href="#">{{ article_.title }}</a>
+          <a href="#">{{ article.title }}</a>
         </h4>
-        <p class="card-text">{{ article_.text }}</p>
-        {% for obj in relation_objs %}
-            {% if obj.article == article_ and obj.is_main %}
-              <span class='badge  bg-primary'> {{ obj.theme.name}}</span>
-            {% endif %}
+        <p class="card-text">{{ article.text }}</p>
+        {% for scope in article.scope.all %}
+          <span class="badge {% if scope.is_main %} badge-primary {% else %} badge-secondary {% endif %}">{{ scope.topic }}</span>
         {% endfor %}
-
-        {% for obj in relation_objs %}
-            {% if obj.article == article_ and not obj.is_main %}
-              <span class='badge bg-secondary'> {{ obj.theme.name}}</span>
-            {% endif %}
-        {% endfor %}
-
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
 {% endblock %}
-
