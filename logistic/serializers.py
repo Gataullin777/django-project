@@ -6,13 +6,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('title', 'description',)
+        fields = ['title', 'description',]
 
 class ProductPositionSerializer(serializers.ModelSerializer):
     # настройте сериализатор для позиции продукта на складе
     class Meta:
         model = StockProduct
-        fields = ('product', 'quantity', 'price',)
+        fields = ['product', 'quantity', 'price',]
 
 
 
@@ -20,6 +20,11 @@ class StockSerializer(serializers.ModelSerializer):
     positions = ProductPositionSerializer(many=True)
 
     # настройте сериализатор для склада
+    class Meta:
+        model = Stock
+        fields = ['address', 'positions',]
+
+
 
     def create(self, validated_data):
         # достаем связанные данные для других таблиц
@@ -28,21 +33,31 @@ class StockSerializer(serializers.ModelSerializer):
         # создаем склад по его параметрам
         stock = super().create(validated_data)
 
-        # здесь вам надо заполнить связанные таблицы
-        # в нашем случае: таблицу StockProduct
-        # с помощью списка positions
+        for position in positions:
+            StockProduct.objects.create(stock=stock, **position)
+
 
         return stock
 
     def update(self, instance, validated_data):
         # достаем связанные данные для других таблиц
+        print(f'validated_data ----->  {validated_data}')
         positions = validated_data.pop('positions')
+        print(f'positions ----->  {positions}')
 
         # обновляем склад по его параметрам
+        print(f'instance ----->  {instance}')
         stock = super().update(instance, validated_data)
+
+        print(f'stock ----->  {stock.address}')
 
         # здесь вам надо обновить связанные таблицы
         # в нашем случае: таблицу StockProduct
         # с помощью списка positions
+
+        for position in positions:
+            print(f'position ----->  {position}')
+            StockProduct.objects.update(**position)
+
 
         return stock
