@@ -1,15 +1,17 @@
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import filters
-from django_filters import rest_framework as rest_filters
+
 from logistic.models import Product, Stock
 from logistic.serializers import ProductSerializer, StockSerializer
+
 
 
 class ProductViewSet(ModelViewSet):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = (rest_filters.DjangoFilterBackend, filters.SearchFilter)
+    filter_backends = (DjangoFilterBackend, SearchFilter)
     search_fields = ['title', 'description']
 
 
@@ -17,5 +19,7 @@ class StockViewSet(ModelViewSet):
 
     queryset = Stock.objects.all()
     serializer_class = StockSerializer
-    filter_backends = (rest_filters.DjangoFilterBackend, filters.SearchFilter)
-    search_fields = ['product']
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    filterset_fields = ['positions__product']
+    search_fields = ['address',]
+    ordering_fields = ['id']
