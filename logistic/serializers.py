@@ -42,8 +42,19 @@ class StockSerializer(serializers.ModelSerializer):
 
         positions = validated_data.pop('positions')
         stock = super().update(instance, validated_data)
-        product_id_list = [product.id for product in StockProduct.objects.all()]
+
+        stock_id = stock.id
+        print()
+        available_product_id_in_stock_list = [product.product_id for product in StockProduct.objects.filter(stock_id=stock_id)]
+        print()
+
         for position in positions:
-            StockProduct.objects.update(**position)
+            print()
+            product_id = position['product'].id
+            print()
+            if product_id in available_product_id_in_stock_list:
+                stock_instance = StockProduct.objects.get(product_id)
+                print()
+                stock_instance.update(stock=stock, **position)
 
         return stock
