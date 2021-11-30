@@ -45,7 +45,7 @@ class StockSerializer(serializers.ModelSerializer):
 
         stock_id = stock.id
         print()
-        available_product_id_in_stock_list = [product.product_id for product in StockProduct.objects.filter(stock_id=stock_id)]
+        available_product_id_in_stock_list = [product.product_id for product in stock.positions.all()]
         print()
 
         for position in positions:
@@ -53,8 +53,11 @@ class StockSerializer(serializers.ModelSerializer):
             product_id = position['product'].id
             print()
             if product_id in available_product_id_in_stock_list:
-                stock_instance = StockProduct.objects.get(product_id)
+                product_data = stock.positions.filter(product_id=product_id)
                 print()
-                stock_instance.update(stock=stock, **position)
+                product_data.update(stock=stock, **position)
+
+            elif product_id not in available_product_id_in_stock_list:
+                stock.positions.create(stock=stock, **position)
 
         return stock
