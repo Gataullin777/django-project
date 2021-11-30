@@ -41,15 +41,9 @@ class StockSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
 
         positions = validated_data.pop('positions')
-        print(f'positions ----->  {positions}')
-
         stock = super().update(instance, validated_data)
+        product_id_list = [product.id for product in StockProduct.objects.all()]
         for position in positions:
             StockProduct.objects.update(**position)
-
-        for position in positions:
-            print(f'position ----->  {position}')
-            StockProduct.objects.update(**position)
-
 
         return stock

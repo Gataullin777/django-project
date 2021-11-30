@@ -4,11 +4,6 @@ from django_filters import rest_framework as rest_filters
 from logistic.models import Product, Stock
 from logistic.serializers import ProductSerializer, StockSerializer
 
-# from logistic.service import StocksFilter
-
-
-
-
 
 class ProductViewSet(ModelViewSet):
 
@@ -16,8 +11,6 @@ class ProductViewSet(ModelViewSet):
     serializer_class = ProductSerializer
     filter_backends = (rest_filters.DjangoFilterBackend, filters.SearchFilter)
     search_fields = ['title', 'description']
-
-
 
 
 class StockViewSet(ModelViewSet):
