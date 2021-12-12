@@ -1,23 +1,11 @@
-import django_filters
-# from django_filters import rest_framework as filters
+from django_filters import rest_framework as filters
 
-from advertisements.models import Advertisement
+# date__lte
+# created_at_before=2021-12-10
+# creator=1
 
-
-class AdvertisementFilter(django_filters.FilterSet):
+class AdvertisementFilter(filters.FilterSet):
     """Фильтры для объявлений."""
+    creator = filters.NumberFilter(field_name='creator_id', lookup_expr='exact')
+    created_at_before = filters.DateFromToRangeFilter(field_name='created_at', lookup_expr='lte')
 
-    # TODO: задайте требуемые фильтры
-
-    # filter by creator
-    creator = django_filters.NumberFilter(field_name='creator_id')
-
-    # filter by date
-    created_at_before = django_filters.NumberFilter(field_name='created_at')
-
-    class Meta:
-        model = Advertisement
-        fields = {
-            'creator': ['exact'],
-            'created_at_before': ['year__gt']
-        }

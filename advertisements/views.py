@@ -22,7 +22,7 @@ class AdvertisementViewSet(ModelViewSet):
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
-    filter_class = AdvertisementFilter
+    filterset_class = AdvertisementFilter
 
 
 
