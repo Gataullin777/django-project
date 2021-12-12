@@ -6,11 +6,8 @@ from rest_framework.viewsets import ModelViewSet
 from advertisements.filters import AdvertisementFilter
 from advertisements.models import Advertisement
 from advertisements.serializers import AdvertisementSerializer
-
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import OrderingFilter, SearchFilter
 
-from django.core.exceptions import ValidationError
 
 
 class AdvertisementViewSet(ModelViewSet):
@@ -21,9 +18,8 @@ class AdvertisementViewSet(ModelViewSet):
 
     queryset = Advertisement.objects.all()
     serializer_class = AdvertisementSerializer
-    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = AdvertisementFilter
-
 
 
 
