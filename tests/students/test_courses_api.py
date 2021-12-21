@@ -1,11 +1,6 @@
-import json
-
 import pytest
-from django.test import TestCase
-from model_bakery import baker
 from django.urls import reverse
-
-from students.models import Student, Course
+from students.models import Course
 
 
 @pytest.mark.django_db
@@ -22,11 +17,6 @@ def test_get_course_1(client, course_factory, student_factory):
     assert response.status_code == 200
     assert response.data[0]['id'] == id_course
     assert response.data[0]['name'] == name_course
-
-
-# products_set = baker.prepare(Product, _quantity=5)
-# history = baker.make(PurchaseHistory, products=products_set)
-
 
 
 @pytest.mark.django_db
@@ -82,9 +72,6 @@ def test_update_course(client, course_factory):
 
     assert response.status_code == 200
     assert response.data['name'] == "successfully"
-
-
-
 
 
 @pytest.mark.django_db
