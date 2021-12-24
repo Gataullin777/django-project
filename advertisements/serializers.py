@@ -47,22 +47,23 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         method_request = self.context['request'].stream.method
         user_name = self.context['request'].user
 
+        user_ads = Advertisement.objects.filter(creator=user_name, status='OPEN')
+
+        print()
         if method_request == 'POST':
-            user_ads = Advertisement.objects.filter(creator=user_name)
-            user_advertisement_titles_list = [advertisement.title for advertisement in user_ads]
-            status_user_ads_list = [advertisement.status for advertisement in user_ads if advertisement.status == 'OPEN']
-            print(status_user_ads_list)
 
-            if data['title'] in user_advertisement_titles_list:
-                raise ValidationError('advertisement alredy exist!!!!')
-
-            if len(status_user_ads_list) >= 10:
+            if len(user_ads) >= 10:
                 raise ValidationError('you must not have more than 10 open ads, close some advertisements')
 
         elif method_request == 'PATCH':
             creater = self.instance.creator
+
             if user_name != creater:
                 raise ValidationError('update and delete advertisement can only the author !!!!')
+
+            if len(user_ads) >= 10:
+                raise ValidationError('you must not have more than 10 open ads, close some advertisements')
+
         return data
 
 

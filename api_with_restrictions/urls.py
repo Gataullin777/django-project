@@ -19,6 +19,7 @@ from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
 
+
 from advertisements.views import AdvertisementViewSet
 
 
@@ -29,6 +30,7 @@ router.register('advertisements', AdvertisementViewSet, basename='advertisements
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('api_token-auth/', views.obtain_auth_token),
+    ]
 
-    path('api_token-auth/', views.obtain_auth_token)
-]
+
