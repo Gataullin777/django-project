@@ -5,18 +5,19 @@ from students.models import Course
 
 @pytest.mark.django_db
 def test_get_course_1(client, course_factory, student_factory):
-    url = reverse("courses-list")
 
-    courses = course_factory(_quantity=1)
+    courses = course_factory(_quantity=5)
     course_1 = courses[0]
 
+    url = reverse("courses-detail", args=(course_1.id,))
     id_course = course_1.id
-    name_course = course_1.name
 
-    response = client.get(url, data={"id": f"{id_course}"})
+    name_course = course_1.name
+    response = client.get(url)
+
     assert response.status_code == 200
-    assert response.data[0]['id'] == id_course
-    assert response.data[0]['name'] == name_course
+    assert response.data['id'] == id_course
+    assert response.data['name'] == name_course
 
 
 @pytest.mark.django_db
